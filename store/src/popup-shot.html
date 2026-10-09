@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Spoilaint</title>
+<link rel="stylesheet" href="../../extension/popup.css">
+</head>
+<body>
+<main>
+  <div class="top">
+    <div class="logo">Spoil<span>aint</span></div>
+    <label class="switch">
+      <span id="onLabel">On</span>
+      <input type="checkbox" id="enabled" checked>
+      <span class="track" aria-hidden="true"><span class="knob"></span></span>
+    </label>
+  </div>
+
+  <div class="status" id="status">
+    <span class="dot" id="dot"></span>
+    <div>
+      <div class="status-title" id="statusTitle">Checking this page…</div>
+      <div class="status-sub" id="statusSub"></div>
+    </div>
+  </div>
+
+  <div class="speech" id="speech" hidden>
+    <button type="button" class="btn-sync" id="syncBtn">Sync to speech</button>
+    <div class="speech-text">
+      <div class="speech-title" id="speechTitle">This site hides its sound from web pages</div>
+      <div class="speech-sub" id="speechSub">Let Spoilaint listen to this tab for exact word timing. One click each time you start watching.</div>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="between"><label for="lag" class="label">Delay</label><span class="value" id="lagVal">0.0s</span></div>
+    <input type="range" id="lag" min="-500" max="1500" step="100" value="0">
+    <div class="between hint"><span>Earlier</span><span>Later</span></div>
+  </div>
+
+  <div class="field">
+    <div class="label" id="modeLabel">Reveal style</div>
+    <div class="seg two" role="group" aria-labelledby="modeLabel" id="mode">
+      <button type="button" data-v="word">Word by word</button>
+      <button type="button" data-v="chunk">3-word chunks</button>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="label" id="textLabel">Text size</div>
+    <div class="row">
+      <div class="seg" role="group" aria-labelledby="textLabel" id="size">
+        <button type="button" data-v="S" aria-label="Small">S</button>
+        <button type="button" data-v="M" aria-label="Medium">M</button>
+        <button type="button" data-v="L" aria-label="Large">L</button>
+      </div>
+      <div class="seg grow" role="group" aria-label="Background" id="bg">
+        <button type="button" data-v="shadow">Shadow</button>
+        <button type="button" data-v="box">Box</button>
+      </div>
+    </div>
+  </div>
+
+  <details class="more">
+    <summary>More options
+      <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 5l4 4 4-4"/></svg>
+    </summary>
+    <div class="field">
+      <div class="label" id="themeLabel">Theme</div>
+      <div class="swatches" role="group" aria-labelledby="themeLabel" id="theme"></div>
+    </div>
+    <label class="check"><input type="checkbox" id="highlight" checked> Colour the newest word</label>
+    <label class="check"><input type="checkbox" id="listen" checked> Listen to the dialogue for exact timing (where the site allows it; reload the page after changing)</label>
+    <a href="test.html" target="_blank" id="testLink">Open the test page (try any subtitle file)</a>
+    <button type="button" class="link" id="reportBtn">Save a timing report (sound levels and subtitle timing from the last 10 minutes)</button>
+  </details>
+</main>
+<footer>
+  <div>Runs only while watching. Nudge delay with <kbd>Alt</kbd>+<kbd>[</kbd> / <kbd>Alt</kbd>+<kbd>]</kbd></div>
+  <button type="button" class="link" id="siteToggle">Turn off on this site</button>
+</footer>
+<script>
+// Stand-in for Chrome's APIs so the real popup renders a "watching Netflix with Sync on" state for the store images.
+window.chrome = {
+  runtime: { lastError: null, sendMessage: function (m, cb) { if (cb) setTimeout(function () { cb({ tabId: 7, problem: '' }); }, 0); return Promise.resolve(); }, getURL: function (p) { return p; } },
+  storage: { sync: { get: function (d, cb) { cb(Object.assign({}, d)); }, set: function () {} } },
+  tabs: {
+    query: function (q, cb) { cb([{ id: 7, url: 'https://www.netflix.com/watch/1' }]); },
+    sendMessage: function (id, m, cb) { setTimeout(function () { cb && cb({ site: 'Netflix', host: 'netflix.com', video: true, kind: 'network', lines: 612, suppressed: false,
+      listening: true, tabAudio: true, heard: true, speechModel: 'on', mismatch: false, muted: false }); }, 0); }
+  },
+  tabCapture: { getMediaStreamId: function () {} }
+};
+</script>
+<script src="../../extension/popup.js"></script>
+</body>
+</html>

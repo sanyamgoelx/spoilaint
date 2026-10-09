@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Spoilaint store images</title>
+<style>
+  @font-face { font-family: "Jakarta"; src: url(plus-jakarta-sans-latin-400-normal.woff2); font-weight: 400; }
+  @font-face { font-family: "Jakarta"; src: url(plus-jakarta-sans-latin-600-normal.woff2); font-weight: 600; }
+  @font-face { font-family: "Jakarta"; src: url(plus-jakarta-sans-latin-700-normal.woff2); font-weight: 700; }
+  @font-face { font-family: "Jakarta"; src: url(plus-jakarta-sans-latin-800-normal.woff2); font-weight: 800; }
+  :root { --bg:#120D09; --card:#1A130D; --raised:#231A12; --line:#3A2A1C; --text:#F3EDE4; --muted:#B3A79A; --faint:#7D7266; --accent:#FFB23F; --ink:#1E1406; --good:#5FD892; --bad:#FF7A6B; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { background: var(--bg); color: var(--text); font-family: "Jakarta", "Inter", sans-serif; overflow: hidden; }
+  .canvas { position: relative; overflow: hidden; background:
+      radial-gradient(ellipse 70% 55% at 85% 0%, rgba(255,160,50,.14), rgba(255,160,50,0) 70%),
+      radial-gradient(ellipse 60% 50% at 0% 100%, rgba(255,120,40,.08), rgba(255,120,40,0) 70%), var(--bg); }
+
+  /* ---------- a made-up film still: two people on a rooftop at night ---------- */
+  .scene { position: absolute; overflow: hidden; border-radius: 18px; background:
+      linear-gradient(180deg, #070a14 0%, #0f1424 38%, #2a1d1e 70%, #3b2416 100%); box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06); }
+  .scene .glow { position: absolute; left: -10%; right: -10%; bottom: 18%; height: 40%;
+      background: radial-gradient(ellipse 60% 70% at 50% 100%, rgba(255,150,60,.45), rgba(255,150,60,0) 70%); }
+  .scene .bokeh { position: absolute; border-radius: 50%; filter: blur(2px); }
+  .scene .skyline { position: absolute; left: 0; right: 0; bottom: 22%; height: 28%; }
+  .scene .skyline i { position: absolute; bottom: 0; background: #0b0c14; }
+  .scene .skyline b { position: absolute; width: 3px; height: 4px; background: rgba(255,200,120,.75); }
+  .scene .roof { position: absolute; left: 0; right: 0; bottom: 0; height: 24%; background: linear-gradient(180deg, #120c0a, #070505); }
+  .scene .person { position: absolute; bottom: 0; background: #050404; }
+  .scene .head { position: absolute; background: #050404; border-radius: 48% 48% 44% 44%; }
+  .scene .vignette { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 75% at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,.6) 100%); }
+  .scene .subs { position: absolute; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; gap: .18em; }
+  .line { display: flex; flex-wrap: wrap; justify-content: center; column-gap: .28em; font-family: "Inter", "Segoe UI", sans-serif; font-weight: 700; line-height: 1.28; color: #fff;
+          text-shadow: 0 .06em .12em rgba(0,0,0,.9), 0 0 .06em rgba(0,0,0,.95), 0 0 .3em rgba(0,0,0,.45); }
+  .w.h { opacity: 0; }
+  .w.f { color: var(--accent); }
+  .w.ghost { opacity: .0; }
+
+  h1 { font-weight: 800; letter-spacing: -0.025em; line-height: 1.08; }
+  .sub { color: var(--muted); font-weight: 400; line-height: 1.45; }
+  .accent { color: var(--accent); }
+  .pill { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font: 700 15px "Jakarta"; }
+  .pill.bad { background: rgba(255,122,107,.14); color: #FF9B8F; border: 1px solid rgba(255,122,107,.35); }
+  .pill.good { background: rgba(255,178,63,.14); color: var(--accent); border: 1px solid rgba(255,178,63,.4); }
+  .label { font: 700 14px "Jakarta"; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+  .wordmark { font-weight: 800; letter-spacing: -0.03em; }
+  .wordmark span { color: var(--accent); }
+  .bullets { display: flex; flex-direction: column; gap: 18px; }
+  .bullets div { display: flex; gap: 14px; align-items: flex-start; font-size: 21px; line-height: 1.4; color: #E9E1D6; }
+  .bullets div::before { content: ""; flex: 0 0 10px; height: 10px; margin-top: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px rgba(255,178,63,.6); }
+  kbd { font: 700 .85em "Inter"; background: var(--raised); border: 1px solid var(--line); border-bottom-width: 3px; border-radius: 8px; padding: 2px 9px; color: var(--text); }
+
+  /* ---------- tray app window ---------- */
+  .win { position: absolute; background: var(--bg); border-radius: 14px; box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 0 1px #2E2219; overflow: hidden; }
+  .win .bar { height: 40px; background: #120D09; display: flex; align-items: center; padding: 0 16px; font: 600 13px "Inter"; color: var(--muted); border-bottom: 1px solid #1f1710; }
+  .win .body { padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+  .step { display: flex; gap: 12px; }
+  .mark { flex: 0 0 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font: 800 13px "Jakarta"; }
+  .mark.done { background: rgba(95,216,146,.18); color: var(--good); }
+  .t { font: 700 14px "Jakarta"; } .d { font: 400 12px "Jakarta"; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+  .bar2 { height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; } .bar2 i { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+  .row { display: flex; justify-content: space-between; align-items: center; }
+  .seg { display: flex; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 3px; gap: 3px; }
+  .seg span { flex: 1; text-align: center; padding: 6px 8px; border-radius: 8px; font: 700 11px "Jakarta"; color: var(--text); }
+  .seg span.on { background: var(--accent); color: var(--ink); }
+</style>
+</head>
+<body>
+<div id="out"></div>
+<script>
+// Seeded random, so every render is identical.
+var seed = 7; function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+
+function scene(x, y, w, h, words, opts) {
+  opts = opts || {};
+  var s = '<div class="scene" style="left:' + x + 'px;top:' + y + 'px;width:' + w + 'px;height:' + h + 'px">';
+  s += '<div class="glow"></div>';
+  seed = 11;
+  for (var i = 0; i < 46; i++) {
+    var r = 4 + rnd() * (w / 46), warm = rnd() < 0.75;
+    var c = warm ? 'rgba(255,' + (150 + rnd() * 70 | 0) + ',' + (60 + rnd() * 60 | 0) + ',' + (0.15 + rnd() * 0.35).toFixed(2) + ')' : 'rgba(110,190,220,' + (0.12 + rnd() * 0.2).toFixed(2) + ')';
+    s += '<div class="bokeh" style="left:' + (rnd() * w | 0) + 'px;top:' + ((0.25 + rnd() * 0.42) * h | 0) + 'px;width:' + (r * 2 | 0) + 'px;height:' + (r * 2 | 0) + 'px;background:radial-gradient(circle,' + c + ',rgba(0,0,0,0) 70%)"></div>';
+  }
+  s += '<div class="skyline">';
+  var bx = 0;
+  while (bx < w) {
+    var bw = 30 + rnd() * 70, bh = 25 + rnd() * 75;
+    s += '<i style="left:' + bx + 'px;width:' + bw + 'px;height:' + bh + '%"></i>';
+    for (var k = 0; k < 6; k++) if (rnd() < 0.55) s += '<b style="left:' + (bx + 6 + rnd() * (bw - 12) | 0) + 'px;bottom:' + (8 + rnd() * (bh - 14) | 0) + '%"></b>';
+    bx += bw + 4;
+  }
+  s += '</div><div class="roof"></div>';
+  // two people facing each other
+  var u = h / 100;
+  s += '<div class="person" style="left:' + (w * 0.18 | 0) + 'px;width:' + (u * 30 | 0) + 'px;height:' + (u * 30 | 0) + 'px;border-radius:' + (u * 14 | 0) + 'px ' + (u * 14 | 0) + 'px 0 0"></div>';
+  s += '<div class="head" style="left:' + (w * 0.18 + u * 8.5 | 0) + 'px;bottom:' + (u * 27 | 0) + 'px;width:' + (u * 13 | 0) + 'px;height:' + (u * 16 | 0) + 'px"></div>';
+  s += '<div class="person" style="left:' + (w * 0.66 | 0) + 'px;width:' + (u * 33 | 0) + 'px;height:' + (u * 34 | 0) + 'px;border-radius:' + (u * 15 | 0) + 'px ' + (u * 15 | 0) + 'px 0 0"></div>';
+  s += '<div class="head" style="left:' + (w * 0.66 + u * 10 | 0) + 'px;bottom:' + (u * 31 | 0) + 'px;width:' + (u * 14 | 0) + 'px;height:' + (u * 17 | 0) + 'px"></div>';
+  s += '<div class="vignette"></div>';
+  if (words) s += subs(words, h * (opts.size || 0.056), opts.bottom || h * 0.08);
+  return s + '</div>';
+}
+// words: [[text, 'v'|'f'|'h'] ...], '|' starts a new row
+function subs(words, px, bottom) {
+  var rows = [[]];
+  words.forEach(function (w) { if (w === '|') rows.push([]); else rows[rows.length - 1].push(w); });
+  return '<div class="subs" style="bottom:' + bottom + 'px;font-size:' + px + 'px">' + rows.map(function (r) {
+    return '<div class="line">' + r.map(function (w) { return '<span class="w ' + (w[1] || 'v') + '">' + w[0] + '</span>'; }).join('') + '</div>';
+  }).join('') + '</div>';
+}
+function W(t, cls) { return [t, cls]; }
+var LINE = [W('I', 'v'), W('know', 'v'), W('who', 'v'), W('took', 'v'), W('it.', 'v'), '|', W('It', 'v'), W('was', 'f'), W('your', 'h'), W('brother', 'h'), W('all', 'h'), W('along.', 'h')];
+var FULL = [W('I'), W('know'), W('who'), W('took'), W('it.'), '|', W('It'), W('was'), W('your'), W('brother'), W('all'), W('along.')];
+
+var T = {
+  'screenshot-1-reveal': [1280, 800, function () {
+    return '<div class="canvas" style="width:1280px;height:800px">' +
+      '<div style="position:absolute;left:80px;top:58px;width:1120px">' +
+      '<h1 style="font-size:46px">Subtitles that <span class="accent">never run ahead.</span></h1>' +
+      '<p class="sub" style="font-size:21px;margin-top:12px">Words appear as they\'re spoken, so the twist waits for the actor.</p></div>' +
+      scene(80, 210, 1120, 540, LINE, { size: 0.062 }) + '</div>';
+  }],
+  'screenshot-2-compare': [1280, 800, function () {
+    return '<div class="canvas" style="width:1280px;height:800px">' +
+      '<div style="position:absolute;left:80px;top:58px;width:1120px">' +
+      '<h1 style="font-size:44px">Normal subtitles give it away. <span class="accent">Spoilaint doesn\'t.</span></h1>' +
+      '<p class="sub" style="font-size:20px;margin-top:12px">Same moment, half a second into the line.</p></div>' +
+      '<div style="position:absolute;left:80px;top:205px"><span class="pill bad">Normal subtitles · spoiler</span></div>' +
+      scene(80, 255, 545, 470, FULL, { size: 0.062, bottom: 30 }) +
+      '<div style="position:absolute;left:655px;top:205px"><span class="pill good">Spoilaint · only what\'s been said</span></div>' +
+      scene(655, 255, 545, 470, LINE, { size: 0.062, bottom: 30 }) + '</div>';
+  }],
+  'screenshot-3-sync': [1280, 800, function () {
+    return '<div class="canvas" style="width:1280px;height:800px">' +
+      scene(560, 60, 900, 680, null) +
+      '<div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(18,13,9,1) 34%, rgba(18,13,9,.55) 58%, rgba(18,13,9,0) 80%)"></div>' +
+      '<div style="position:absolute;left:80px;top:120px;width:470px">' +
+      '<div class="label">Netflix, Prime Video, JioHotstar</div>' +
+      '<h1 style="font-size:44px;margin-top:14px">One key and it <span class="accent">listens.</span></h1>' +
+      '<p class="sub" style="font-size:20px;margin-top:14px">Press <kbd>Alt</kbd> + <kbd>S</kbd> once per viewing. On YouTube and most sites, nothing to press.</p>' +
+      '<div class="bullets" style="margin-top:36px">' +
+      '<div>A speech model on your computer hears each word start. No audio is uploaded.</div>' +
+      '<div>Dubbed audio? It notices and switches to estimated timing.</div>' +
+      '<div>Delay, size and style in the toolbar.</div></div></div>' +
+      '<img src="popup.png" style="position:absolute;left:800px;top:50px;height:700px;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.65),0 0 0 1px #3A2A1C">' +
+      '</div>';
+  }],
+  'screenshot-4-vlc': [1280, 800, function () {
+    return '<div class="canvas" style="width:1280px;height:800px">' +
+      '<div style="position:absolute;left:80px;top:120px;width:470px">' +
+      '<div class="label">Also on Windows</div>' +
+      '<h1 style="font-size:44px;margin-top:14px">Your films in VLC, <span class="accent">to the word.</span></h1>' +
+      '<p class="sub" style="font-size:20px;margin-top:14px">The free Spoilaint app matches each subtitle word to the moment it\'s spoken, once per film, in the background.</p>' +
+      '<div class="bullets" style="margin-top:36px">' +
+      '<div>Reads .srt files and subtitles inside .mkv files.</div>' +
+      '<div>Fixes subtitle files that are out of sync with the film.</div>' +
+      '<div>No command prompts, no setup per film.</div></div></div>' +
+      appWindow(690, 70) + '</div>';
+  }],
+  'promo-small-440x280': [440, 280, function () {
+    return '<div class="canvas" style="width:440px;height:280px">' +
+      scene(0, 0, 440, 280, null) +
+      '<div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(18,13,9,.2), rgba(18,13,9,.75) 70%)"></div>' +
+      '<img src="../../assets/icon-128.png" style="position:absolute;left:26px;top:24px;width:44px;height:44px;border-radius:10px">' +
+      '<div class="wordmark" style="position:absolute;left:82px;top:28px;font-size:30px">Spoil<span>aint</span></div>' +
+      '<div style="position:absolute;left:20px;right:20px;bottom:70px">' + subs([W('I'), W('know'), W('who'), W('took'), W('it.'), '|', W('It'), W('was', 'f')], 22, 0).replace('position:absolute;', '') + '</div>' +
+      '<div style="position:absolute;left:0;right:0;bottom:26px;text-align:center;font:700 17px Jakarta;color:#F3EDE4">Spoiler-free subtitles</div>' +
+      '</div>';
+  }],
+  'promo-marquee-1400x560': [1400, 560, function () {
+    return '<div class="canvas" style="width:1400px;height:560px">' +
+      scene(470, -20, 990, 600, null) +
+      '<div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(18,13,9,1) 40%, rgba(18,13,9,.35) 55%, rgba(18,13,9,0) 66%)"></div>' +
+      '<div style="position:absolute;left:640px;right:0;bottom:62px">' + subs([W('I'), W('know'), W('who'), W('took'), W('it.'), '|', W('It'), W('was', 'f'), W('your', 'h'), W('brother', 'h'), W('all', 'h'), W('along.', 'h')], 31, 0).replace('position:absolute;', '') + '</div>' +
+      '<div style="position:absolute;left:90px;top:120px;width:560px">' +
+      '<div style="display:flex;align-items:center;gap:16px"><img src="../../assets/icon-128.png" style="width:64px;height:64px;border-radius:14px">' +
+      '<div class="wordmark" style="font-size:52px">Spoil<span>aint</span></div></div>' +
+      '<h1 style="font-size:40px;margin-top:28px">Subtitles that keep up,<br><span class="accent">never run ahead.</span></h1>' +
+      '<p class="sub" style="font-size:20px;margin-top:16px">Netflix, YouTube, JioHotstar, SonyLIV, VLC and more.</p></div></div>';
+  }]
+};
+
+function appWindow(x, y) {
+  return '<div class="win" style="left:' + x + 'px;top:' + y + 'px;width:460px">' +
+    '<div class="bar">Spoilaint</div><div class="body">' +
+    '<div style="display:flex;gap:12px;align-items:center"><img src="../../assets/icon-128.png" style="width:36px;height:36px;border-radius:8px">' +
+    '<div><div style="font:800 20px Jakarta">Spoilaint</div><div class="d" style="margin:0">Matching The Glass Harbour · 64%</div></div></div>' +
+    '<div class="card"><div class="step"><div class="mark done">&#10003;</div><div><div class="t">VLC</div><div class="d">Ready. Open any film in VLC and the subtitles appear word by word.</div></div></div>' +
+    '<div class="step" style="margin-top:14px"><div class="mark done">&#10003;</div><div><div class="t">Browser extension</div><div class="d">Added to Chrome. For Netflix, JioHotstar, SonyLIV, YouTube and more.</div></div></div></div>' +
+    '<div class="card"><div class="t">The Glass Harbour</div><div class="d">Matching words to speech · 64% · about 25 s left</div><div class="bar2" style="margin-top:12px"><i style="width:64%"></i></div>' +
+    '<div class="label" style="font-size:10px;margin-top:18px">Recent</div>' +
+    '<div class="row" style="margin-top:10px"><div><div class="t" style="font-size:13px">Northbound Express</div><div class="d">1,310 of 1,323 lines matched to speech</div></div><div class="d">today 21:40</div></div>' +
+    '<div class="row" style="margin-top:12px;padding-top:12px;border-top:1px solid #3A2A1C"><div><div class="t" style="font-size:13px">Saltwater, Episode 4</div><div class="d">Subtitles were 3.2 s late, fixed · 612 lines</div></div><div class="d">yesterday</div></div></div>' +
+    '<div class="card"><div class="label" style="font-size:10px">VLC subtitles</div>' +
+    '<div class="row" style="margin-top:12px"><div class="t" style="font-weight:600">Style</div><div class="seg" style="width:270px;white-space:nowrap"><span class="on">Word by word</span><span>3 words</span><span>Normal</span></div></div>' +
+    '<div class="row" style="margin-top:12px"><div class="t" style="font-weight:600">Newest word colour</div><div style="display:flex;gap:10px">' +
+    ['#FFB23F', '#E4E0D9', '#8C9BFF', '#5FD892'].map(function (c, i) { return '<span style="width:20px;height:20px;border-radius:50%;background:' + c + (i ? '' : ';box-shadow:0 0 0 2px #120D09,0 0 0 4px #F3EDE4') + '"></span>'; }).join('') +
+    '</div></div></div></div></div>';
+}
+
+var name = location.hash.slice(1), t = T[name];
+document.body.style.width = t[0] + 'px'; document.body.style.height = t[1] + 'px';
+document.getElementById('out').innerHTML = t[2]();
+document.fonts.ready.then(function () { document.title = 'ready'; });
+</script>
+</body>
+</html>

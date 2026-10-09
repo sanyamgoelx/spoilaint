@@ -1,0 +1,18 @@
+# build output and the PC<->cloud transfer folder
+dist/
+_sync/
+# third-party binaries and the speech model (big; see README > Build)
+vendor/
+# timing reports (contain real subtitle text from streaming sites)
+reports/
+# the Mac signing key stays private (the certificate itself is fine to share)
+mac/signing/*.key
+# test builds and temporary files
+tray/test/*.exe
+tray/test/*.so*
+tray/spoilaint.ico
+tray/logo.png
+bench/__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

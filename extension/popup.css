@@ -1,0 +1,80 @@
+:root {
+  --card: #17110C; --raised: #221A13; --line: #3A2A1C; --line-soft: #2E2219;
+  --text: #F3EDE4; --muted: #B3A79A; --accent: #FFB23F; --ink: #1E1406; --ok: #4FCB7E;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; width: 340px; color: var(--text);
+  background: radial-gradient(ellipse 90% 40% at 50% 0%, rgba(255,160,50,.08), rgba(255,160,50,0) 70%), var(--card);
+  font: 14px/1.4 "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+main { padding: 16px 18px; display: flex; flex-direction: column; gap: 18px; }
+.top { display: flex; align-items: center; justify-content: space-between; }
+.logo { font-weight: 800; font-size: 22px; letter-spacing: -0.02em; }
+.logo span { color: var(--accent); }
+.switch { display: flex; align-items: center; gap: 10px; font-weight: 600; cursor: pointer; min-height: 44px; position: relative; }
+.switch input { position: absolute; opacity: 0; width: 46px; height: 26px; right: 0; margin: 0; cursor: pointer; }
+.track { width: 46px; height: 26px; border-radius: 13px; background: #3A2A1C; position: relative; transition: background .15s; }
+.knob { position: absolute; left: 3px; top: 3px; width: 20px; height: 20px; border-radius: 50%; background: #8C7F72; transition: left .15s, background .15s; }
+.switch input:checked + .track { background: var(--accent); box-shadow: 0 0 14px rgba(255,178,63,.35); }
+.switch input:checked + .track .knob { left: 23px; background: var(--ink); }
+.switch input:focus-visible + .track { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.status { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--raised); border: 1px solid #33261B; border-radius: 12px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #6E5A47; flex-shrink: 0; }
+.dot.ok { background: var(--ok); box-shadow: 0 0 8px rgba(79,203,126,.6); }
+.dot.warn { background: var(--accent); }
+.status-title { font-weight: 700; }
+.status-sub { font-size: 12px; color: var(--muted); }
+.status-sub:empty { display: none; }
+
+.speech { display: flex; flex-direction: column; gap: 10px; padding: 12px 14px; border-radius: 12px; border: 1px dashed #5A4430; }
+.speech[hidden] { display: none; }
+.btn-sync { min-height: 44px; border: none; border-radius: 10px; background: var(--accent); color: var(--ink); font: 700 14px "Segoe UI", system-ui, sans-serif; cursor: pointer; }
+.btn-sync.stop { background: var(--raised); color: var(--text); border: 1px solid var(--line); }
+.speech-title { font-weight: 700; font-size: 13px; }
+.speech-sub { font-size: 12px; color: var(--muted); }
+.more > .link { margin-top: 10px; display: block; }
+.field { display: flex; flex-direction: column; gap: 10px; }
+.label { font-weight: 700; }
+.value { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.between { display: flex; justify-content: space-between; align-items: baseline; }
+.hint { font-size: 12px; color: var(--muted); }
+input[type=range] { width: 100%; margin: 0; accent-color: var(--accent); }
+.row { display: flex; gap: 8px; }
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(44px, 1fr); gap: 6px; }
+.seg.two { grid-auto-columns: minmax(0, 1fr); }
+.seg.grow { flex: 1; grid-auto-columns: minmax(0, 1fr); }
+.seg button {
+  min-height: 44px; border-radius: 10px; border: 1px solid var(--line); background: var(--raised);
+  color: #D8CFC3; font: 600 13px "Segoe UI", system-ui, sans-serif; cursor: pointer;
+}
+.seg button:hover { border-color: #5A4430; }
+.seg button[aria-pressed=true] { background: var(--accent); border-color: var(--accent); color: var(--ink); font-weight: 700; }
+#size button[aria-pressed=true] { background: #2A1F15; border-color: var(--accent); color: var(--text); }
+button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.more { border-top: 1px solid var(--line-soft); padding-top: 4px; }
+.more summary { list-style: none; display: flex; align-items: center; justify-content: space-between; min-height: 40px; font-weight: 700; cursor: pointer; color: var(--text); }
+.more summary::-webkit-details-marker { display: none; }
+.more summary svg { color: var(--muted); transition: transform .15s; }
+.more[open] summary svg { transform: rotate(180deg); }
+.more > .field, .more > .check, .more > a { margin-top: 12px; }
+.more > a { display: block; color: var(--accent); font-size: 13px; font-weight: 600; }
+.swatches { display: flex; gap: 8px; }
+.swatches button { width: 44px; height: 44px; border-radius: 12px; border: 2px solid transparent; cursor: pointer; }
+.swatches button[aria-pressed=true] { border-color: var(--text); }
+.preview { height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: linear-gradient(180deg, #241B13, #120D09); border: 1px solid var(--line-soft); overflow: hidden; }
+.preview-line { display: flex; gap: .3em; font: 700 14px "Segoe UI", system-ui, sans-serif; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.8); }
+.preview-line .w { opacity: 0; transition: opacity 120ms ease-out, color 300ms ease-out; }
+.preview-line .w.v { opacity: 1; }
+.preview-line .w.f { color: var(--accent); }
+.keys { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.more > a + a { margin-top: 8px; }
+.check { display: flex; align-items: flex-start; gap: 10px; min-height: 32px; cursor: pointer; }
+.check input { accent-color: var(--accent); width: 18px; height: 18px; margin: 1px 0 0; flex-shrink: 0; }
+
+footer { padding: 12px 18px 16px; border-top: 1px solid var(--line-soft); display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--muted); }
+kbd { font: 600 11px "Segoe UI", system-ui, sans-serif; background: #2A2018; border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px; color: var(--text); }
+.link { background: none; border: none; padding: 0; color: var(--accent); font: 600 13px "Segoe UI", system-ui, sans-serif; cursor: pointer; text-align: left; min-height: 24px; }
+.link:hover { text-decoration: underline; }

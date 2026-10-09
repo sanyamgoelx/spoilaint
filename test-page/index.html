@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spoilaint test page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Atkinson+Hyperlegible:wght@400;700&family=Noto+Sans+Devanagari:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #120D09; --card: #17110C; --raised: #1F1812; --line: #3A2A1C; --line-soft: #2E2219;
+    --text: #F3EDE4; --muted: #B3A79A; --accent: #FFB23F; --ink: #1E1406;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 28px 20px 60px; display: flex; flex-direction: column; gap: 18px; }
+  header { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .logo { font-weight: 800; font-size: 30px; letter-spacing: -0.02em; }
+  .logo span, .accent { color: var(--accent); }
+  .sub { color: var(--muted); font-size: 15px; }
+  .card { background: radial-gradient(ellipse 70% 50% at 15% 0%, rgba(255,160,50,.08), rgba(255,160,50,0) 70%), var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 18px; }
+  .grid { display: flex; gap: 18px; flex-wrap: wrap; align-items: flex-start; }
+  .main { flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+  .side { flex: 1 1 300px; display: flex; flex-direction: column; gap: 18px; }
+  .screen { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; background: #000; border: 1px solid var(--line); }
+  .screen video { width: 100%; height: 100%; display: block; background: #000; }
+  .fake { position: absolute; inset: 0; background: #241A12; display: flex; align-items: center; justify-content: center; color: #6E5A47; font-size: 13px; letter-spacing: .08em; font-weight: 600; }
+  .drop { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; padding: 20px; background: #1C150F; border: 2px dashed transparent; border-radius: 14px; }
+  .drop.over { border-color: var(--accent); background: #241A12; }
+  .drop h2 { margin: 0; font-size: 22px; font-weight: 800; }
+  .drop p { margin: 0; color: var(--muted); font-size: 14px; max-width: 460px; }
+  .row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .btn { min-height: 44px; padding: 0 18px; border-radius: 10px; border: 1px solid var(--line); background: var(--raised); color: var(--text); font: 600 14px 'Plus Jakarta Sans', sans-serif; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+  .btn:hover { border-color: #5A4430; }
+  .btn.primary { background: var(--accent); color: var(--ink); border-color: var(--accent); font-weight: 800; }
+  .btn:focus-visible, .seg button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .play { width: 48px; height: 48px; border-radius: 50%; border: none; background: var(--accent); color: var(--ink); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; box-shadow: 0 0 22px rgba(255,178,63,.3); }
+  .time { font-variant-numeric: tabular-nums; font-size: 14px; color: #D8CFC3; min-width: 110px; }
+  input[type=range] { accent-color: var(--accent); }
+  .seek { flex: 1; min-width: 160px; }
+  .label { font-size: 14px; font-weight: 700; }
+  .field { display: flex; flex-direction: column; gap: 10px; }
+  .seg { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 6px; }
+  .seg button { min-height: 44px; border-radius: 10px; border: 1px solid var(--line); background: var(--raised); color: #D8CFC3; font: 600 13px 'Plus Jakarta Sans', sans-serif; cursor: pointer; }
+  .seg button[aria-pressed=true] { background: var(--accent); border-color: var(--accent); color: var(--ink); font-weight: 800; }
+  .delay-val { font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .between { display: flex; justify-content: space-between; align-items: baseline; }
+  .hint { font-size: 12px; color: var(--muted); }
+  .status { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px; background: #221A13; border: 1px solid #33261B; font-size: 13px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #6E5A47; flex-shrink: 0; }
+  .dot.ok { background: #4FCB7E; box-shadow: 0 0 8px rgba(79,203,126,.6); }
+  .swatches { display: flex; gap: 8px; }
+  .swatches button { width: 44px; height: 44px; border-radius: 12px; border: 2px solid transparent; cursor: pointer; }
+  .swatches button[aria-pressed=true] { border-color: var(--text); }
+  kbd { font: 600 12px 'Plus Jakarta Sans', sans-serif; background: #2A2018; border: 1px solid var(--line); border-radius: 6px; padding: 2px 6px; color: var(--text); }
+  .hidden { display: none !important; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">Spoil<span>aint</span></div>
+    <div class="sub">Test page: drop a movie and its subtitles, or just a subtitle file.</div>
+  </header>
+
+  <div class="grid">
+    <div class="main card">
+      <div class="screen" id="screen">
+        <video id="video" class="hidden" playsinline></video>
+        <div id="fake" class="fake hidden">NO VIDEO · SUBTITLES ONLY</div>
+        <div class="drop" id="drop">
+          <h2>Drop files here</h2>
+          <p>A video (.mp4, .webm, .mkv) and a subtitle file (.srt, .vtt, .ttml, .xml, YouTube .json). Or just the subtitle file.</p>
+          <div class="row" style="justify-content:center">
+            <label class="btn primary" for="pick">Choose files</label>
+            <button class="btn" id="sample" type="button">Try the sample</button>
+          </div>
+          <input id="pick" class="sr" type="file" multiple accept="video/*,.mkv,.srt,.vtt,.ttml,.xml,.dfxp,.json">
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="play" id="play" type="button" aria-label="Play">
+          <svg id="icoPlay" width="18" height="18" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><path d="M5 2.5v13l11-6.5z"/></svg>
+          <svg id="icoPause" class="hidden" width="18" height="18" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true"><rect x="3" y="2" width="4" height="14" rx="1"/><rect x="11" y="2" width="4" height="14" rx="1"/></svg>
+        </button>
+        <div class="time" id="time">0:00 / 0:00</div>
+        <input class="seek" id="seek" type="range" min="0" max="1000" value="0" aria-label="Seek">
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="card field" style="gap:16px">
+        <div class="status"><span class="dot" id="dot"></span><span id="statusText">No subtitles loaded yet</span></div>
+
+        <div class="field">
+          <div class="between"><label class="label" for="lag">Delay</label><span class="delay-val" id="lagVal">0.0s</span></div>
+          <input id="lag" type="range" min="-500" max="1500" step="100" value="0">
+          <div class="between hint"><span>Earlier</span><span>Later</span></div>
+        </div>
+
+        <div class="field">
+          <div class="label" id="modeLabel">Reveal style</div>
+          <div class="seg" role="group" aria-labelledby="modeLabel" id="mode">
+            <button type="button" data-v="word" aria-pressed="true">Word by word</button>
+            <button type="button" data-v="chunk" aria-pressed="false">3-word chunks</button>
+            <button type="button" data-v="off" aria-pressed="false">Normal</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="label" id="sizeLabel">Text</div>
+          <div class="row" style="gap:8px">
+            <div class="seg" role="group" aria-labelledby="sizeLabel" id="size" style="flex:1">
+              <button type="button" data-v="S" aria-pressed="false">S</button>
+              <button type="button" data-v="M" aria-pressed="true">M</button>
+              <button type="button" data-v="L" aria-pressed="false">L</button>
+            </div>
+            <div class="seg" role="group" aria-label="Background" id="bg" style="flex:1.4">
+              <button type="button" data-v="shadow" aria-pressed="true">Shadow</button>
+              <button type="button" data-v="box" aria-pressed="false">Box</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="label" id="themeLabel">Theme</div>
+          <div class="swatches" role="group" aria-labelledby="themeLabel" id="theme"></div>
+        </div>
+      </div>
+
+      <div class="card field">
+        <div class="label">For VLC</div>
+        <div class="hint" style="font-size:13px">Download the spoiler-free version of this subtitle file and open it in any player that reads .ass files.</div>
+        <button class="btn" id="export" type="button" disabled>Download .ass file</button>
+        <div class="hint" style="font-size:13px">Shortcuts: <kbd>Space</kbd> play/pause · <kbd>Alt</kbd>+<kbd>[</kbd> / <kbd>Alt</kbd>+<kbd>]</kbd> delay</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../engine/spoilaint-engine.js"></script>
+<script src="../engine/spoilaint-overlay.js"></script>
+<script src="../engine/spoilaint-listen.js"></script>
+<script src="test.js"></script>
+</body>
+</html>

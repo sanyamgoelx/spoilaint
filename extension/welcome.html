@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spoilaint is on</title>
+<link rel="icon" href="icons/icon-32.png">
+<link rel="stylesheet" href="welcome.css">
+</head>
+<body>
+<div class="pin" id="pin" role="note">
+  <svg class="arrow" width="46" height="46" viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 40C14 22 24 12 38 8"/><path d="M27 6l11 2-3 11"/></svg>
+  <div>
+    <div class="pin-title">Pin Spoilaint to your toolbar</div>
+    <div class="pin-text">Click the puzzle piece <span class="glyph" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4a2 2 0 0 0-2 2v3.8h1.5a2.7 2.7 0 0 1 0 5.4H2V20a2 2 0 0 0 2 2h3.8v-1.5a2.7 2.7 0 0 1 5.4 0V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"/></svg></span> up here, then the pin next to Spoilaint. Its button is how you sync to speech on Netflix.</div>
+  </div>
+  <button type="button" class="pin-x" id="pinClose" aria-label="Hide this tip">
+    <svg width="14" height="14" viewBox="0 0 14 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 3l8 8M11 3l-8 8"/></svg>
+  </button>
+</div>
+
+<main>
+  <header>
+    <div class="logo">Spoil<span>aint</span></div>
+    <div class="badge"><span class="dot"></span>Added and on</div>
+  </header>
+
+  <section class="hero">
+    <h1>Subtitles that keep up,<br>never run ahead.</h1>
+    <p>Words now appear as they're spoken, so you never read the twist before the actor says it.</p>
+  </section>
+
+  <section class="demo" aria-label="Preview">
+    <div class="screen">
+      <div class="glow" aria-hidden="true"></div>
+      <div class="sub" id="demoLine" aria-live="off"></div>
+    </div>
+    <div class="demo-bar">
+      <div class="seg" role="group" aria-label="Reveal style" id="demoMode">
+        <button type="button" data-v="word" aria-pressed="true">Word by word</button>
+        <button type="button" data-v="chunk" aria-pressed="false">3-word chunks</button>
+        <button type="button" data-v="off" aria-pressed="false">Normal subtitles</button>
+      </div>
+    </div>
+  </section>
+
+  <h2>How to use it</h2>
+  <section class="cards">
+    <article class="card">
+      <div class="icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+      <h3>Just press play</h3>
+      <p>Turn on subtitles in the player as usual. On YouTube and most sites, Spoilaint takes over by itself.</p>
+    </article>
+    <article class="card">
+      <div class="icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 11v2"/></svg></div>
+      <h3>Netflix, Prime, Hotstar</h3>
+      <p>These hide their sound, so click Spoilaint and press <b>Sync to speech</b> once when you start watching. Or press <kbd>Alt</kbd>+<kbd>S</kbd>.</p>
+    </article>
+    <article class="card">
+      <div class="icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></div>
+      <h3>Feels early or late?</h3>
+      <p>Nudge it while watching with <kbd>Alt</kbd>+<kbd>[</kbd> and <kbd>Alt</kbd>+<kbd>]</kbd>. Size, colour and style are in Spoilaint's menu.</p>
+    </article>
+  </section>
+
+  <section class="try">
+    <div>
+      <h3>Try it with your own subtitles</h3>
+      <p>Drop in any .srt or .vtt file (and the video, if you like) to watch the reveal.</p>
+    </div>
+    <a class="btn" href="test.html">Open the test page</a>
+  </section>
+
+  <footer>VLC is set up too: open any film with subtitles and they reveal word by word. Close this tab whenever you like.</footer>
+</main>
+<script src="welcome.js"></script>
+</body>
+</html>

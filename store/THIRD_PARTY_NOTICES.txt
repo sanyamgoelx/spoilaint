@@ -1,0 +1,24 @@
+Spoilaint third-party notices
+=============================
+
+Browser extension
+-----------------
+- Speech model (speech/model.int8.onnx, speech/tokens.txt): NVIDIA NeMo "stt_en_conformer_ctc_small",
+  licensed CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/), (c) NVIDIA.
+  https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_conformer_ctc_small
+  Converted to ONNX and quantised to int8 by the sherpa-onnx project (k2-fsa, Apache-2.0):
+  https://github.com/k2-fsa/sherpa-onnx  Used unchanged.
+- ONNX Runtime Web 1.20.1 (vad/ort.wasm.min.js, vad/ort-wasm-simd-threaded.*): MIT License, (c) Microsoft Corporation.
+  https://github.com/microsoft/onnxruntime
+- Silero VAD v5 (vad/silero_vad_v5.onnx): MIT License, (c) 2020-present Silero Team. https://github.com/snakers4/silero-vad
+  (file taken from the @ricky0123/vad-web npm package, ISC)
+
+Windows app and installer
+-------------------------
+- The same speech model (speech-model/), CC BY 4.0, as above.
+- ONNX Runtime 1.20.1 (onnxruntime.dll): MIT License, (c) Microsoft Corporation (onnxruntime-LICENSE.txt).
+- Microsoft Visual C++ runtime (msvcp140.dll, msvcp140_1.dll, vcruntime140.dll, vcruntime140_1.dll):
+  redistributable files of Microsoft Visual Studio, distributed app-local under its licence terms.
+- FFmpeg 8.1 (ffmpeg.exe): LGPL v2.1 or later, build from BtbN/FFmpeg-Builds (ffmpeg-LICENSE.txt, ffmpeg-README.txt).
+
+All of these run on the user's computer; none of them send data anywhere.

@@ -1,0 +1,21 @@
+Spoilaint for Mac
+
+1. Drag Spoilaint into the Applications folder.
+2. Open it from Applications.
+
+The first time, macOS says it can't check Spoilaint for malicious software (it isn't signed by an Apple
+developer account yet). To open it anyway:
+
+  - Click Done (or Cancel) on that message.
+  - Open System Settings > Privacy & Security, scroll down, and click "Open Anyway" next to Spoilaint.
+  - Confirm with your password or Touch ID. You only do this once.
+
+On macOS 14 or older you can instead right-click Spoilaint in Applications, choose Open, then Open again.
+
+Spoilaint then shows its setup window: click Install, then "Add to my browser" for Netflix, Prime, Hotstar
+and YouTube. VLC needs to be installed for films on your Mac (videolan.org).
+
+Along the way macOS may ask:
+  - to let Spoilaint control Chrome, Brave or Edge: that's how it opens the extensions page for you.
+  - to let it read files in Downloads, Documents or an external drive: that's where your films are; it
+    listens to their dialogue to time the words.

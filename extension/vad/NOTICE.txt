@@ -1,0 +1,8 @@
+Spoilaint's voice detector uses:
+
+- Silero VAD v5 model (silero_vad_v5.onnx), MIT License, Copyright (c) 2020-present Silero Team.
+  https://github.com/snakers4/silero-vad  (file taken from the @ricky0123/vad-web npm package, ISC)
+- ONNX Runtime Web 1.20.1 (ort.wasm.min.js, ort-wasm-simd-threaded.*), MIT License,
+  Copyright (c) Microsoft Corporation. https://github.com/microsoft/onnxruntime
+
+Both run locally in the browser; no audio leaves the computer.

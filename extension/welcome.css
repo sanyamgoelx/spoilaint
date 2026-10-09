@@ -1,0 +1,67 @@
+:root {
+  --bg: #120D09; --card: #17110C; --raised: #221A13; --line: #3A2A1C;
+  --text: #F3EDE4; --muted: #B3A79A; --faint: #7D7266; --accent: #FFB23F; --ink: #1E1406; --ok: #5FD892;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  margin: 0; color: var(--text); min-height: 100vh;
+  background: radial-gradient(ellipse 70% 35% at 50% 0%, rgba(255,160,50,.11), rgba(255,160,50,0) 70%), var(--bg);
+  font: 16px/1.5 "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+main { max-width: 880px; margin: 0 auto; padding: 40px 16px 56px; display: flex; flex-direction: column; gap: 28px; }
+header { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.logo { font-weight: 800; font-size: 26px; letter-spacing: -0.02em; }
+.logo span { color: var(--accent); }
+.badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: var(--raised); border: 1px solid var(--line); font-size: 13px; font-weight: 600; color: var(--muted); }
+.badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px rgba(95,216,146,.7); }
+
+.hero h1 { margin: 0 0 10px; font-size: clamp(32px, 6vw, 52px); line-height: 1.05; letter-spacing: -0.03em; }
+.hero p { margin: 0; color: var(--muted); font-size: 18px; max-width: 560px; }
+
+.demo { background: var(--card); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+.screen { position: relative; aspect-ratio: 21 / 8; min-height: 180px; display: flex; align-items: flex-end; justify-content: center; padding: 0 6% 7%;
+  background: linear-gradient(180deg, #2a2119 0%, #1a130d 55%, #0d0906 100%); }
+.glow { position: absolute; inset: 0; background: radial-gradient(ellipse 40% 60% at 70% 30%, rgba(255,178,63,.16), transparent 70%), radial-gradient(ellipse 30% 50% at 20% 40%, rgba(140,155,255,.08), transparent 70%); }
+.sub { position: relative; display: flex; flex-wrap: wrap; justify-content: center; column-gap: .28em; min-height: 1.3em;
+  font: 700 clamp(18px, 3.4vw, 30px)/1.3 "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif; color: #fff;
+  text-shadow: 0 .06em .12em rgba(0,0,0,.9), 0 0 .3em rgba(0,0,0,.45); text-align: center; }
+.sub .w { opacity: 0; transform: translateY(.12em); transition: opacity 120ms ease-out, transform 120ms ease-out, color 320ms ease-out; }
+.sub .w.v { opacity: 1; transform: none; }
+.sub .w.f { color: var(--accent); }
+.demo-bar { padding: 12px; border-top: 1px solid var(--line); }
+.seg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.seg button { min-height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--raised); color: #D8CFC3; font: 600 14px inherit; font-family: inherit; cursor: pointer; }
+.seg button:hover { border-color: #5A4430; }
+.seg button[aria-pressed=true] { background: var(--accent); border-color: var(--accent); color: var(--ink); font-weight: 700; }
+
+h2 { margin: 4px 0 -12px; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+.card .icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(255,178,63,.12); color: var(--accent); }
+.card h3, .try h3 { margin: 4px 0 0; font-size: 17px; }
+.card p, .try p { margin: 0; color: var(--muted); font-size: 15px; }
+.card b { color: var(--text); }
+kbd { font: 600 12px inherit; font-family: inherit; background: #2A2018; border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; color: var(--text); white-space: nowrap; }
+
+.try { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; background: var(--raised); border: 1px dashed #5A4430; border-radius: 16px; padding: 18px; }
+.btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 12px; background: var(--accent); color: var(--ink); font-weight: 700; text-decoration: none; }
+.btn:hover { filter: brightness(1.06); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+footer { color: var(--faint); font-size: 14px; }
+
+/* Pin tip: points at the toolbar's extensions button, top right. */
+.pin { position: fixed; top: 12px; right: 16px; z-index: 5; width: min(360px, calc(100vw - 32px)); display: flex; gap: 12px; align-items: flex-start;
+  background: var(--accent); color: var(--ink); border-radius: 16px; padding: 14px 40px 14px 14px; box-shadow: 0 10px 40px rgba(0,0,0,.45);
+  animation: drop .5s cubic-bezier(.2,.9,.3,1.2) both .4s; }
+.pin[hidden] { display: none; }
+.pin .arrow { flex-shrink: 0; transform: rotate(-8deg); animation: nudge 1.6s ease-in-out infinite 1s; }
+.pin-title { font-weight: 800; }
+.pin-text { font-size: 14px; line-height: 1.4; }
+.glyph { display: inline-flex; vertical-align: -2px; }
+.pin-x { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border: none; border-radius: 8px; background: transparent; color: var(--ink); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.pin-x:hover { background: rgba(0,0,0,.1); }
+@keyframes drop { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+@keyframes nudge { 0%, 100% { transform: rotate(-8deg) translate(0, 0); } 50% { transform: rotate(-8deg) translate(3px, -3px); } }
+@media (prefers-reduced-motion: reduce) { .pin, .pin .arrow { animation: none; } .sub .w { transition: none; } }
+@media (max-width: 640px) { main { padding-top: 140px; } }

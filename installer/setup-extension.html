@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add Spoilaint to your browser</title>
+<style>
+  :root { --bg:#120D09; --card:#17110C; --raised:#221A13; --line:#3A2A1C; --text:#F3EDE4; --muted:#B3A79A; --accent:#FFB23F; --ink:#1E1406; --good:#5FD892; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: radial-gradient(ellipse 70% 30% at 50% 0%, rgba(255,160,50,.10), rgba(255,160,50,0) 70%), var(--bg); color: var(--text); font: 16px/1.5 "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif; min-height: 100vh; }
+  main { max-width: 640px; margin: 0 auto; padding: 48px 16px; display: flex; flex-direction: column; gap: 22px; }
+  .logo { font-weight: 800; font-size: 26px; letter-spacing: -0.02em; }
+  .logo span { color: var(--accent); }
+  h1 { margin: 0; font-size: 30px; line-height: 1.15; letter-spacing: -0.01em; }
+  p { margin: 0; color: var(--muted); }
+  .hero { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .hero b { color: var(--text); }
+  .browsers { display: flex; flex-wrap: wrap; gap: 10px; }
+  a.btn, button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 12px; border: 1px solid var(--line); background: var(--raised); color: var(--text); font: 700 15px inherit; font-family: inherit; text-decoration: none; cursor: pointer; }
+  a.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+  a.btn:hover, button:hover { filter: brightness(1.08); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+  .small { font-size: 14px; }
+  h2 { margin: 6px 0 0; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: #7D7266; }
+  ol { margin: 0; padding: 0; list-style: none; counter-reset: s; display: flex; flex-direction: column; gap: 10px; }
+  li { counter-increment: s; display: flex; gap: 14px; align-items: flex-start; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+  li::before { content: counter(s); flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--ink); font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  li > div { min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+  kbd { font: 600 13px inherit; font-family: inherit; background: #2A2018; border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; }
+  .path { display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1px dashed var(--line); border-radius: 10px; padding: 8px 8px 8px 12px; }
+  .path code { flex: 1; min-width: 0; font: 600 13px Consolas, monospace; color: var(--text); overflow-wrap: anywhere; }
+  .path button { min-height: 36px; padding: 0 12px; font-size: 13px; flex-shrink: 0; }
+  .ok { color: var(--good) !important; }
+  .note { font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="logo">Spoil<span>aint</span></div>
+  <h1>Add Spoilaint to your browser</h1>
+
+  <div class="hero">
+    <p><b>The easy way:</b> pick your browser. Spoilaint opens its extensions page for you and puts the folder on your clipboard, with a small guide in the corner of the screen.</p>
+    <div class="browsers">
+      <a class="btn primary" href="spoilaint://add-extension/chrome">Chrome</a>
+      <a class="btn primary" href="spoilaint://add-extension/brave">Brave</a>
+      <a class="btn primary" href="spoilaint://add-extension/edge">Edge</a>
+    </div>
+    <p class="small">If the browser asks whether to open Spoilaint, click Open. Nothing happens? Use the Start menu: <b>Add Spoilaint to your browser</b>.</p>
+  </div>
+
+  <h2>Or by hand</h2>
+  <ol>
+    <li><div>Type <kbd>chrome://extensions</kbd> in the address bar (Brave: <kbd>brave://extensions</kbd>, Edge: <kbd>edge://extensions</kbd>). Browsers don't let a page link there.</div></li>
+    <li><div>Turn on <b>Developer mode</b> (switch at the top right).</div></li>
+    <li><div>Copy the folder below, click <b>Load unpacked</b>, press <kbd>Ctrl</kbd>+<kbd>V</kbd>, then click <b>Select Folder</b>.
+      <div class="path"><code id="folder"></code><button type="button" id="copy">Copy</button></div></div></li>
+    <li><div>Pin it: click the puzzle piece in the toolbar, then the pin next to Spoilaint.</div></li>
+  </ol>
+  <p class="note">VLC is already set up: open any movie with subtitles and they reveal word by word. Restart VLC if it was open during setup.</p>
+</main>
+<script>
+  // This page sits in Spoilaint's install folder; the extension folder is next to it.
+  var p = decodeURIComponent(location.pathname).replace(/^\/([A-Za-z]:)/, '$1').replace(/\//g, '\\');
+  document.getElementById('folder').textContent = p.replace(/\\[^\\]*$/, '') + '\\extension';
+  var btn = document.getElementById('copy');
+  btn.addEventListener('click', function () {
+    navigator.clipboard.writeText(document.getElementById('folder').textContent).then(function () {
+      btn.textContent = 'Copied'; btn.classList.add('ok');
+      setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('ok'); }, 1500);
+    });
+  });
+</script>
+</body>
+</html>
