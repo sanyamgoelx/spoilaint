@@ -1,0 +1,81 @@
+# Builds and publishes a release whenever main has a version that isn't released yet
+# (the version in extension/manifest.json; tray/App.cs, installer/spoilaint.nsi and mac/helper/main.go must match).
+# Assets: Windows installer, macOS disk image, browser extension zip. Notes: that version's CHANGELOG.md section.
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the version
+        id: v
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          V=$(node -p "require('./extension/manifest.json').version")
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+          grep -q "Version = \"$V\"" tray/App.cs || { echo "tray/App.cs isn't $V"; exit 1; }
+          grep -q "VERSION \"$V\"" installer/spoilaint.nsi || { echo "installer/spoilaint.nsi isn't $V"; exit 1; }
+          grep -q "version = \"$V\"" mac/helper/main.go || { echo "mac/helper/main.go isn't $V"; exit 1; }
+          if gh release view "v$V" >/dev/null 2>&1; then
+            echo "v$V is already released"; echo "build=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "build=1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Tools
+        if: steps.v.outputs.build == '1'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq mono-devel nsis genisoimage llvm cmake zlib1g-dev zip >/dev/null
+
+      - uses: actions/setup-go@v5
+        if: steps.v.outputs.build == '1'
+        with:
+          go-version: '1.24.x'
+          cache-dependency-path: mac/helper/go.sum
+
+      - name: Third-party parts (FFmpeg, ONNX Runtime, speech model, signing tools)
+        if: steps.v.outputs.build == '1'
+        run: sh ci/fetch-vendor.sh
+
+      - name: Build
+        if: steps.v.outputs.build == '1'
+        env:
+          MAC_SIGN_KEY: ${{ secrets.MAC_SIGN_KEY }}
+        run: |
+          node build.js
+          sh tray/build.sh
+          (cd installer && makensis -V2 spoilaint.nsi)
+          sh mac/build.sh
+          V=${{ steps.v.outputs.version }}
+          mkdir -p out
+          cp "dist/Spoilaint Setup $V.exe" "out/Spoilaint-Setup-$V.exe"
+          cp "dist/Spoilaint-$V-mac.dmg" out/
+          cp dist/spoilaint-extension.zip out/
+          ls -la out
+
+      - name: Publish
+        if: steps.v.outputs.build == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          V=${{ steps.v.outputs.version }}
+          awk -v v="## $V" 'index($0, v) == 1 {on=1; next} /^## / {on=0} on' CHANGELOG.md > notes.md
+          printf '\n**Windows 10/11:** `Spoilaint-Setup-%s.exe`. **macOS 11+:** `Spoilaint-%s-mac.dmg` (first open: System Settings > Privacy & Security > Open Anyway). **Extension only:** `spoilaint-extension.zip`.\n' "$V" "$V" >> notes.md
+          gh release create "v$V" out/* --target "$GITHUB_SHA" --title "Spoilaint $V" --notes-file notes.md

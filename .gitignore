@@ -1,8 +1,13 @@
 # build output and the PC<->cloud transfer folder
 dist/
 _sync/
-# third-party binaries and the speech model (big; see README > Build)
-vendor/
+# third-party binaries and the speech model (big; ci/fetch-vendor.sh downloads them). Their licence notes are kept.
+installer/vendor/*
+!installer/vendor/*.txt
+!installer/vendor/speech-model/
+installer/vendor/speech-model/*
+!installer/vendor/speech-model/README.txt
+mac/vendor/
 # timing reports (contain real subtitle text from streaming sites)
 reports/
 # the Mac signing key stays private (the certificate itself is fine to share)

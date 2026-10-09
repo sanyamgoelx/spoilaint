@@ -64,7 +64,11 @@ EOF
 # made once with `rcodesign generate-self-signed-certificate --person-name Spoilaint --pem-filename mac/signing/spoilaint`).
 # Apple Silicon needs every program signed; a stable certificate (unlike ad-hoc) keeps macOS's permissions
 # (files in Downloads, controlling the browser) across updates. Gatekeeper still asks once ("Open Anyway").
-SIGN="--timestamp-url none --pem-file $ROOT/mac/signing/spoilaint.crt --pem-file $ROOT/mac/signing/spoilaint.key"
+# On GitHub Actions the key comes from the MAC_SIGN_KEY secret; without it the app is signed ad hoc (works the same,
+# but macOS asks for its permissions again after an update).
+KEY=$ROOT/mac/signing/spoilaint.key
+if [ ! -f "$KEY" ] && [ -n "$MAC_SIGN_KEY" ]; then printf '%s\n' "$MAC_SIGN_KEY" > "$KEY"; fi
+if [ -f "$KEY" ]; then SIGN="--timestamp-url none --pem-file $ROOT/mac/signing/spoilaint.crt --pem-file $KEY"; else SIGN=""; echo "no signing key: ad-hoc signature"; fi
 "$V/rcodesign" sign $SIGN --binary-identifier app.spoilaint.helper "$R/bin/spoilaint-helper" >/dev/null
 "$V/rcodesign" sign $SIGN "$APP" >/dev/null
 
