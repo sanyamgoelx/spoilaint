@@ -1,3 +1,7 @@
+# Changelog
+
+## 0.8.0 (10 Oct 2026)
+
 First public release.
 
 **Windows 10/11:** `Spoilaint-Setup-0.8.0.exe` sets up VLC's word-by-word mode, a small background app, and walks you through adding the browser extension (about a minute). Windows SmartScreen may warn because the installer isn't code-signed yet: *More info* > *Run anyway*.

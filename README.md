@@ -94,7 +94,7 @@ Hotstar) give silence, so they stay on the estimate.
 **Delay setting:** 0 = on time. Lines only estimated get +300 ms automatically.
 
 **Bench:** `bench/make_bench.py` builds test films with known word times (espeak-ng voices, music and
-effects); `bench/dump.lua` + `bench/score.py` / `bench/evalenv.py` score a run; `bench/grid*.py` tune.
+effects); `bench/dump.lua` + `bench/score.py` / `bench/evalenv.py` score a run.
 
 ## Display rules (0.2.1)
 
@@ -133,7 +133,7 @@ Checked in Chromium on real speech mixed with laughter and music: the extension'
 run (correlation 0.99999), whole-pipeline AUC 0.92 vs 0.72 for loudness, about 20x faster than real time. The
 detector's readings trail the sound by ~0.1 s.
 
-**0.4.1, from Crofty's Friends report (8 min, tab audio):** the detector separated dialogue from the laugh
+**0.4.1, from a real Friends timing report (8 min, tab audio):** the detector separated dialogue from the laugh
 track (AUC 0.90 against the subtitle windows; loudness 0.45, i.e. no better than chance), but scored low because
 Netflix's tab audio is ~28 dB quieter than a normal recording: only 18% of lines reached 0.5. Fixes:
 
@@ -148,7 +148,7 @@ but it also fired in 12% of gaps with no subtitle (vs 0% before) and separation 
 loud crowd laughter as speech. Tested on real LibriSpeech lines followed by real crowd laughter (layered ESC-50
 laughing + clapping): at full level laughter scores >= 0.5 27% of the time, at Netflix's level 0%. The level is
 now evened to RMS 0.04 (turned up or down, 0.1-100x): speech 75%, laughter 3%, at any input level; speech +
-music test unchanged (AUC 0.90). Reports now include `voiceGain`. Test kit: `/tmp/sit/make.py` (not in repo).
+music test unchanged (AUC 0.90). Reports now include `voiceGain`.
 
 ## Netflix placement and fullscreen (0.4.1)
 
@@ -284,7 +284,7 @@ text; right text scores around -1) keep the estimate (+300 ms margin).
 
 ## Less delay, no clumps, no Sync needed where the page's sound is readable (0.6.2)
 
-From Crofty's Netflix report (a trailer, Sync off, so the old loudness listener): words clumped and trailed.
+From a real Netflix timing report (a trailer, Sync off, so the old loudness listener): words clumped and trailed.
 - **Speech model on page audio:** where the page can read the video's sound (trailers, YouTube, non-DRM players),
   the listener sends it at 16 kHz to the offscreen page's speech model (`page-audio` messages); no Sync click.
   Tab capture (Sync) still takes priority for DRM sites. Full-pipeline test in Chromium (bench clip, non-DRM page):

@@ -1,4 +1,4 @@
-// node store/src/render.js  -> store/images/*.png (serve /root/sp on :8833 first)
+// node store/src/render.js  -> store/images/*.png (serve the repository root on :8833 first)
 const { chromium } = require('playwright');
 (async () => {
   const b = await chromium.launch();
