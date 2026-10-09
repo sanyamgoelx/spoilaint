@@ -1,0 +1,3 @@
+# Keep test subtitle files byte-for-byte (encodings and CRLF line endings are what the tests check)
+vlc/test/samples/** -text
+bench/fuzz/** -text
