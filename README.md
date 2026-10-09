@@ -25,6 +25,12 @@ VLC itself: [videolan.org](https://www.videolan.org/vlc/). Open any film with su
 subtitles inside an `.mkv`) and they reveal word by word. On Netflix, Prime and Hotstar, click Spoilaint and press
 *Sync to speech* (or Alt+S) once per viewing; on YouTube it just works.
 
+## Support
+
+Spoilaint is free. If it makes your films and shows better, you can support its development through
+**[GitHub Sponsors](https://github.com/sponsors/sanyamgoelx)** or, in India, UPI to `sanyamgoel.pc@okicici`
+(both also in the extension's menu > *Support Spoilaint*, and in the Spoilaint app).
+
 ## Credits
 
 - Speech model: NVIDIA NeMo Conformer-CTC small (English, CC-BY-4.0, (c) NVIDIA), int8 ONNX from [k2-fsa/sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx). Shipped unchanged in the installers.
@@ -58,7 +64,7 @@ The speech model, FFmpeg and ONNX Runtime aren't in the repository (size and lic
 ```
 node build.js                      # dist/extension, dist/spoilaint-extension.zip, dist/vlc
 sh tray/build.sh                   # dist/app/Spoilaint.exe (tray app; needs mono-devel)
-makensis installer/spoilaint.nsi   # dist/Spoilaint Setup 0.8.0.exe (needs installer/vendor: ffmpeg.exe, onnxruntime.dll, speech-model/) (needs installer/vendor/ffmpeg.exe, LGPL build from BtbN/FFmpeg-Builds)
+makensis installer/spoilaint.nsi   # dist/Spoilaint Setup 0.8.1.exe (needs installer/vendor: ffmpeg.exe, onnxruntime.dll, speech-model/) (needs installer/vendor/ffmpeg.exe, LGPL build from BtbN/FFmpeg-Builds)
 ```
 
 ## Tests

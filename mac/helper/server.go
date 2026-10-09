@@ -213,6 +213,12 @@ func serve() error {
 	})
 	post("/api/copy", func(r *http.Request) (any, error) { return nil, copyToClipboard(extensionDir()) })
 	post("/api/reveal", func(r *http.Request) (any, error) { return nil, revealInFinder(extensionDir()) })
+	post("/api/support", func(r *http.Request) (any, error) {
+		if p := filepath.Join(extensionDir(), "support.html"); exists(p) {
+			return nil, openPath(p)
+		}
+		return nil, openPath("https://github.com/sponsors/sanyamgoelx")
+	})
 	post("/api/open-log", func(r *http.Request) (any, error) { return nil, openPath(vlcLog()) })
 	post("/api/get-vlc", func(r *http.Request) (any, error) {
 		return nil, openPath("https://www.videolan.org/vlc/download-macosx.html")

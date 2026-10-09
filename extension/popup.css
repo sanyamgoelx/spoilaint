@@ -69,6 +69,8 @@ button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visibl
 .preview-line .w { opacity: 0; transition: opacity 120ms ease-out, color 300ms ease-out; }
 .preview-line .w.v { opacity: 1; }
 .preview-line .w.f { color: var(--accent); }
+.foot-links { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.foot-links a.link { text-decoration: none; }
 .keys { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 .more > a + a { margin-top: 8px; }
 .check { display: flex; align-items: flex-start; gap: 10px; min-height: 32px; cursor: pointer; }

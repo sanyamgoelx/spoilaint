@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Spoilaint: spoiler-free subtitles",
   "short_name": "Spoilaint",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Subtitles that keep up, never run ahead: words appear as they're spoken. Netflix, YouTube, Hotstar, SonyLIV and more.",
   "icons": {
     "16": "icons/icon-16.png",

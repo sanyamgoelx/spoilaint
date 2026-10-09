@@ -14,7 +14,7 @@ import (
 	"strings"
 )
 
-const version = "0.8.0"
+const version = "0.8.1"
 
 func main() {
 	// Spoilaint.app runs this binary with no arguments (old macOS adds -psn_...): open the app.

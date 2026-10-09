@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.1 (10 Oct 2026)
+
+- *Support Spoilaint*: GitHub Sponsors and UPI, in the extension menu, the welcome tab, the Windows app (footer and tray menu) and the Mac window. Entirely optional.
+
 ## 0.8.0 (10 Oct 2026)
 
 First public release.

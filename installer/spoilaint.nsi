@@ -9,7 +9,7 @@ Unicode true
 !include "x64.nsh"
 
 !define APP "Spoilaint"
-!define VERSION "0.8.0"
+!define VERSION "0.8.1"
 !define UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\Spoilaint"
 
 Name "${APP}"

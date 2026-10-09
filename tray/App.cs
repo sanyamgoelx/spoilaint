@@ -18,7 +18,7 @@ namespace Spoilaint
         List<RecentItem> recent = RecentStore.Load();
         readonly Dictionary<string, DateTime> justSynced = new Dictionary<string, DateTime>();
         public bool Quitting;
-        public static string Version = "0.8.0";
+        public static string Version = "0.8.1";
 
         // controls
         Panel viewport, scroll;
@@ -40,7 +40,7 @@ namespace Spoilaint
         Toggle highlight, box, autostart, notify;
         readonly List<Control[]> settingRows = new List<Control[]>();
         TextLine footer;
-        LinkText openLog;
+        LinkText openLog, support;
 
         static readonly string[] ThemeKeys = { "amber", "dark", "indigo", "green" };
         static readonly int[] Sizes = { 52, 64, 78 };
@@ -212,6 +212,9 @@ namespace Spoilaint
             scroll.Controls.Add(appCard);
             footer = new TextLine("Spoilaint " + Version, Theme.Small, Theme.Faint) { BackColor = Theme.Bg };
             openLog = new LinkText("Open VLC log") { BackColor = Theme.Bg };
+            support = new LinkText("\u2615 Support") { BackColor = Theme.Bg };
+            support.Click += (s, e) => OpenSupport();
+            scroll.Controls.Add(support);
             openLog.Click += (s, e) => { if (File.Exists(Paths.VlcLog)) Tools.Open(Paths.VlcLog); };
             scroll.Controls.Add(footer);
             scroll.Controls.Add(openLog);
@@ -225,10 +228,11 @@ namespace Spoilaint
             var open = new ToolStripMenuItem("Open Spoilaint", null, (s, e) => ShowWindow()) { Font = Theme.BodyBold };
             menuStatus = new ToolStripMenuItem("Ready") { Enabled = false };
             var ext = new ToolStripMenuItem("Add to your browser", null, (s, e) => ShowGuide(null));
+            var sup = new ToolStripMenuItem("Support Spoilaint", null, (s, e) => OpenSupport());
             var log = new ToolStripMenuItem("Open VLC log", null, (s, e) => { if (File.Exists(Paths.VlcLog)) Tools.Open(Paths.VlcLog); });
             menuAuto = new ToolStripMenuItem("Start with Windows", null, (s, e) => { Autostart.Enabled = !Autostart.Enabled; autostart.On = Autostart.Enabled; UpdateMenuChecks(); });
             var quit = new ToolStripMenuItem("Quit", null, (s, e) => Quit());
-            menu.Items.AddRange(new ToolStripItem[] { open, menuStatus, new ToolStripSeparator(), ext, log, menuAuto, new ToolStripSeparator(), quit });
+            menu.Items.AddRange(new ToolStripItem[] { open, menuStatus, new ToolStripSeparator(), ext, log, menuAuto, sup, new ToolStripSeparator(), quit });
             menu.Opening += (s, e) => UpdateMenuChecks();
             return menu;
         }
@@ -247,6 +251,7 @@ namespace Spoilaint
             LayoutApp(w); appCard.SetBounds(pad, y, w, appCard.Height); y += appCard.Height + Theme.D(10);
             footer.SetBounds(pad + Theme.D(4), y, w / 2, Theme.D(18));
             int lw = openLog.Natural(); openLog.SetBounds(pad + w - lw - Theme.D(4), y, lw, Theme.D(18));
+            int sw = support.Natural(); support.SetBounds(pad + w - lw - sw - Theme.D(20), y, sw, Theme.D(18));
             y += Theme.D(18) + pad;
             contentH = y - y0;
             ScrollTo(offset);
@@ -525,6 +530,13 @@ namespace Spoilaint
             Activate();
         }
         void ToggleWindow() { if (Visible && WindowState != FormWindowState.Minimized) Hide(); else ShowWindow(); }
+
+        // Sponsors / UPI page, shipped inside the extension folder (opens in the default browser).
+        void OpenSupport()
+        {
+            string page = Path.Combine(Paths.AppDir, "extension", "support.html");
+            Tools.Open(File.Exists(page) ? page : "https://github.com/sponsors/sanyamgoelx");
+        }
 
         GuideForm guide;
         public void ShowGuide(string browser)

@@ -15,7 +15,7 @@ fs.mkdirSync(path.join(ext, 'icons'), { recursive: true });
 const copy = (from, to) => fs.copyFileSync(path.join(root, from), path.join(dist, to));
 
 // Extension: its own files + the shared engine and overlay + the test page.
-['manifest.json', 'inject.js', 'content.js', 'popup.html', 'popup.css', 'popup.js', 'background.js', 'offscreen.html', 'offscreen.js', 'welcome.html', 'welcome.css', 'welcome.js'].forEach((f) => copy('extension/' + f, 'extension/' + f));
+['manifest.json', 'inject.js', 'content.js', 'popup.html', 'popup.css', 'popup.js', 'background.js', 'offscreen.html', 'offscreen.js', 'welcome.html', 'welcome.css', 'welcome.js', 'support.html', 'support.js'].forEach((f) => copy('extension/' + f, 'extension/' + f));
 copy('engine/spoilaint-engine.js', 'extension/engine.js');
 copy('engine/spoilaint-overlay.js', 'extension/overlay.js');
 copy('engine/spoilaint-listen.js', 'extension/listen.js');
@@ -31,6 +31,7 @@ if (fs.existsSync(path.join(sm, 'model.int8.onnx'))) {
 copy('extension/pcm-worklet.js', 'extension/pcm-worklet.js');
 fs.mkdirSync(path.join(ext, 'vad'), { recursive: true });
 fs.readdirSync(path.join(root, 'extension/vad')).forEach((f) => copy('extension/vad/' + f, 'extension/vad/' + f));
+copy('assets/upi-qr.svg', 'extension/upi-qr.svg');
 [16, 32, 48, 128].forEach((s) => copy(`assets/icon-${s}.png`, `extension/icons/icon-${s}.png`));
 const testHtml = fs.readFileSync(path.join(root, 'test-page/index.html'), 'utf8')
   .replace('../engine/spoilaint-engine.js', 'engine.js')

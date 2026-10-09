@@ -231,6 +231,7 @@
   $('copyBtn').onclick = function () { var b = this; api('/api/copy').then(function (r) { b.textContent = r.ok ? 'Copied' : 'Couldn\'t copy'; setTimeout(function () { b.textContent = 'Copy'; }, 1500); }); };
   $('revealBtn').onclick = function () { api('/api/reveal'); };
   $('logBtn').onclick = function () { api('/api/open-log'); };
+  $('supportBtn').onclick = function () { api('/api/support'); };
   $('quitBtn').onclick = function () { api('/api/quit').then(function () { document.body.innerHTML = '<main><p style="padding:40px 0;text-align:center">Spoilaint has stopped. VLC starts it again when you open a film.</p></main>'; }); };
 
   $('uninstallBtn').onclick = function () {
